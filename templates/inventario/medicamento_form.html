@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {% if form.instance.pk %}Editar{% else %}Nuevo{% endif %} Medicamento | FarmaStock
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-pills me-2"></i>
+                        {% if form.instance.pk %}
+                            Editar Medicamento: {{ form.instance.nombre }}
+                        {% else %}
+                            Registrar Nuevo Medicamento
+                        {% endif %}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    {% crispy form %}
+                </div>
+                <div class="card-footer text-end">
+                    <a href="{% url 'inventario:medicamento_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Validación del formulario
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            const nombre = document.getElementById('id_nombre').value;
+            const dosis = document.getElementById('id_dosis').value;
+            const presentacion = document.getElementById('id_presentacion').value;
+            
+            // Validar campos obligatorios según la historia de usuario
+            if (!nombre) {
+                event.preventDefault();
+                alert('El nombre del medicamento es obligatorio');
+                return false;
+            }
+            
+            if (!dosis) {
+                event.preventDefault();
+                alert('La dosis del medicamento es obligatoria');
+                return false;
+            }
+            
+            if (!presentacion) {
+                event.preventDefault();
+                alert('La presentación del medicamento es obligatoria');
+                return false;
+            }
+            
+            return true;
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Eliminar {{ medicamento.nombre }} | FarmaStock{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmar Eliminación
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer.
+                    </div>
+                    
+                    <p class="mb-4">¿Está seguro que desea eliminar el siguiente medicamento?</p>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ medicamento.nombre }}</h5>
+                            <p class="card-text">
+                                <strong>Código:</strong> {{ medicamento.codigo }}<br>
+                                <strong>Dosis:</strong> {{ medicamento.dosis }}<br>
+                                <strong>Presentación:</strong> {{ medicamento.presentacion }}<br>
+                                <strong>Stock actual:</strong> {{ medicamento.stock_actual }} unidades
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'inventario:medicamento_detail' medicamento.id %}" class="btn btn-secondary me-2">
+                                <i class="fas fa-times me-2"></i>Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash me-2"></i>Eliminar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
